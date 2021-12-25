@@ -1,0 +1,80 @@
+﻿@model ECommerce.Models.ProductViewModel
+@using ECommerce.Extensions
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container py-5">
+
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+
+            <div class="bg-white rounded-lg shadow-sm p-5">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>Add New <b>Product</b></h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content pt-3">
+                    <!-- credit card info-->
+                    <div id="nav-tab-card" class="tab-pane fade show active">
+                        <!--<p class="alert alert-success">Some text success or error</p>-->
+                        <form role="form" method="post" asp-controller="Product" asp-action="Create">
+
+                            <div class="form-group form-inline" style="justify-content: space-between;">
+                                <label for="productname" class="col-sm-5 p-0" style="justify-content:left">Product Name (Full name) </label>
+                                <input type="text" asp-for="Product.Name" name="productname" placeholder="Product X" required class="form-control col-sm-7" />
+                            </div>
+
+                            <div class="form-group form-inline" style="justify-content: space-between;">
+                                <label for="description" class="col-sm-5 p-0" style="justify-content:left">Description </label>
+                                <textarea name="description" asp-for="Product.Description" required class="form-control col-sm-7" rows="3"></textarea>
+                            </div>
+
+                            <div class="form-row" style="justify-content: space-between;">
+                                <div class="form-group col-md-4">
+                                    <label for="inputPrice">Price</label>
+                                    <input type="text" asp-for="Product.Price" placeholder="2000.00" class="form-control" id="inputPrice">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="inputCurrent">Current</label>
+                                    <select id="inputCurrent" class="form-control" asp-for="Product.CurrentID" asp-items="Model.Currencies.ToSelectListItem()">
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label for="inputQuantity">Quantity</label>
+                                    <input type="text" asp-for="Product.Quantity" class="form-control" id="inputQuantity">
+                                </div>
+                            </div>
+
+                            <div class="form-row form-inline mt-2" style="justify-content: start;">
+                                <div class="form-group col-lg-4 form-inline" style="justify-content: space-between;">
+                                    <label for="inputCategory">Category</label>
+                                    <select id="inputCategory" class="form-control" asp-for="Product.CategoryID" asp-items="Model.Categories.ToSelectListItem()">
+                                        
+                                    </select>
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="form-group mb-3 col-lg-6">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                                        <label asp-for="Product.Image" class="custom-file-label" for="inputGroupFile01">Choose your Images</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+
+                            <button type="submit" class="subscribe btn btn-primary btn-block rounded-pill shadow-sm"> Create  </button>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- End -->
+            </div>
+        </div>
+    </div>
+</div>

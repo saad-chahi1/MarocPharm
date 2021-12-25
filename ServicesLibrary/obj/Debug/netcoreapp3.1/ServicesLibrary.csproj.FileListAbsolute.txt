@@ -1,0 +1,9 @@
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\bin\Debug\netcoreapp3.1\ServicesLibrary.deps.json
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\bin\Debug\netcoreapp3.1\ServicesLibrary.dll
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\bin\Debug\netcoreapp3.1\ServicesLibrary.pdb
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\obj\Debug\netcoreapp3.1\ServicesLibrary.csprojAssemblyReference.cache
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\obj\Debug\netcoreapp3.1\ServicesLibrary.AssemblyInfoInputs.cache
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\obj\Debug\netcoreapp3.1\ServicesLibrary.AssemblyInfo.cs
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\obj\Debug\netcoreapp3.1\ServicesLibrary.csproj.CoreCompileInputs.cache
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\obj\Debug\netcoreapp3.1\ServicesLibrary.dll
+C:\Users\PC\source\repos\ECommerce\ServicesLibrary\obj\Debug\netcoreapp3.1\ServicesLibrary.pdb
