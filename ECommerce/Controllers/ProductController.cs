@@ -1,8 +1,13 @@
-﻿using AutoMapper;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using AutoMapper;
 using ECommerce.AppDbContext;
 using ECommerce.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 using System.Linq;
 
 namespace ECommerce.Controllers
@@ -10,43 +15,112 @@ namespace ECommerce.Controllers
     public class ProductController : Controller
     {
         private readonly ECommerceDbContext _db;
+        private readonly IHostingEnvironment _appEnvironment;
+        private readonly INotyfService _notyfService;
 
-        [BindProperty]
-        public ProductViewModel ModelVM { get; set; }
-
-        public ProductController(ECommerceDbContext db)
+        public ProductController(ECommerceDbContext db, IHostingEnvironment appEnvironment, INotyfService notyfService)
         {
             _db = db;
-            ModelVM = new ProductViewModel()
-            {
-                Categories = _db.Categories.ToList(),
-                Currencies = _db.Currents.ToList(),
-                Product = new Models.Product()
-            };
+            _appEnvironment = appEnvironment;
+            _notyfService = notyfService;
         }
 
         public IActionResult Index()
-        {
-            var model = _db.Products.Include(m => m.Category);
-            return View(model.ToList());
-        }
+        {  
+            var data = _db.Products.Select(s => new Product
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                Quantity = s.Quantity,
+                Price = s.Price,
+                Image = s.Image,
+                CategoryID = s.CategoryID,
+                Category = _db.Categories.Where(a => a.Id == s.CategoryID).FirstOrDefault(),
+                CurrentID = s.CurrentID,
+                Current = _db.Currents.Where(a => a.Id == s.CurrentID).FirstOrDefault()
+            }).ToList();
 
+            return View(data);
+        }
+        [HttpGet]
         public IActionResult Create()
         {
-            return View(ModelVM);
+            CategoryDropDownList();
+            CurrencyDropDownList();
+            return View();
         }
+        
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Product(Product product)
+        public IActionResult Create(Product product)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(ModelVM);
+                string UrlImage = "";
+                var files = HttpContext.Request.Form.Files;
+                foreach (var Image in files)
+                {
+                    if (Image != null && Image.Length > 0)
+                    {
+                        var file = Image;
+
+                        var uploads = Path.Combine(_appEnvironment.WebRootPath, "images");
+                        if (file.Length > 0)
+                        {
+                            // var fileName = Guid.NewGuid().ToString().Replace("-", "") + Path.GetExtension(file.FileName);
+                            var fileName = Guid.NewGuid().ToString().Replace("-", "") + file.FileName;
+                            using (var fileStream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
+                            {
+                                file.CopyTo(fileStream);
+                                UrlImage = fileName;
+                            }
+
+                        }
+                    }
+                }
+                var data = new Product()
+                {
+                    Name = product.Name,
+                    Quantity = product.Quantity,
+                    Description = product.Description,
+                    Image = UrlImage,
+                    Price = product.Price,
+                    CategoryID = product.CategoryID,
+                    CurrentID = product.CurrentID
+                };
+                _db.Products.Add(data);
+                _db.SaveChanges();
+                _notyfService.Success("You have successfully Added new Product.");
+                return RedirectToAction(nameof(Index));
+
             }
-            _db.Products.Add(ModelVM.Product);
+            return View();
+        }
+        public IActionResult Delete(int id)
+        {
+            long idLong = (long)id;
+            var product = _db.Products.Find(idLong);
+            if (product == null)
+            {
+                _notyfService.Error("Your request is not completed");
+                return RedirectToAction(nameof(Index));
+            }
+            _db.Products.Remove(product);
             _db.SaveChanges();
+            _notyfService.Success("You have successfully deleted your Product.");
             return RedirectToAction(nameof(Index));
+        }
+
+        private void CategoryDropDownList(object categorySelect = null)
+        {
+            var rolesQuery = _db.Categories.ToList();
+            ViewBag.Categories = new SelectList(rolesQuery, "Id", "Name", categorySelect);
+        }
+        private void CurrencyDropDownList(object currencySelect = null)
+        {
+            var rolesQuery = _db.Currents.ToList();
+            ViewBag.Currents = new SelectList(rolesQuery, "Id", "Name", currencySelect);
         }
     }
 }

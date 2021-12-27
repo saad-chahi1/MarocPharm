@@ -17,7 +17,7 @@
                         <h2>Manage <b>Categories</b></h2>
                     </div>
                     <div class="col-sm-6">
-                        <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+                        <a href="#addCategoryModal" class="btn btn-success" data-toggle="modal">
                             <i class="material-icons">&#xE147;</i> <span>Add New Category</span>
                         </a>
                         <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
@@ -70,7 +70,7 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input type="button" class="btn btn-default" value="Cancel" onclick="closeEditModal()">
                                             <input type="button" class="btn btn-info" value="Save" onclick="EditCategory()">
                                         </div>
                                     </div>
@@ -82,12 +82,12 @@
                                 <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                             </a>
                             <!-- Delete Modal HTML -->
-                            <div id="myModal" class="modal fade">
+                            <div id="deleteCategoryModel" class="modal fade">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Delete Category</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                                         </div>
                                         <div class="modal-body">
                                             <h6 class="#modal_body"></h6>
@@ -95,13 +95,12 @@
                                             <p class="text-warning"><small>This action cannot be undone.</small></p>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                                            <input type="button" class="btn btn-default" value="Cancel" onclick="closeDeleteModal()">
                                             <input type="button" class="btn btn-danger" value="Delete" onclick="DeleteCategory()">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
 
                             <input type="hidden" id="hiddenCategoryId" />
 
@@ -128,7 +127,7 @@
     </div>
 </div>
 <!-- Add Modal HTML -->
-<div id="addEmployeeModal" class="modal fade">
+<div id="addCategoryModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form method="post" asp-controller="Category" asp-action="Create">
@@ -143,7 +142,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="button" class="btn btn-default" value="Cancel" onclick="closeAddModal()">
                     <input type="submit" class="btn btn-success" value="Add">
                 </div>
             </form>
