@@ -15,9 +15,11 @@ namespace ECommerce.Controllers
     public class ProductController : Controller
     {
         private readonly ECommerceDbContext _db;
+        [Obsolete]
         private readonly IHostingEnvironment _appEnvironment;
         private readonly INotyfService _notyfService;
 
+        [Obsolete]
         public ProductController(ECommerceDbContext db, IHostingEnvironment appEnvironment, INotyfService notyfService)
         {
             _db = db;
@@ -53,6 +55,7 @@ namespace ECommerce.Controllers
         
 
         [HttpPost]
+        [Obsolete]
         public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
