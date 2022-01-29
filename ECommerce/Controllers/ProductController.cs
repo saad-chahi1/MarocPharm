@@ -2,6 +2,7 @@
 using AutoMapper;
 using ECommerce.AppDbContext;
 using ECommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,12 +13,15 @@ using System.Linq;
 
 namespace ECommerce.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly ECommerceDbContext _db;
+        [Obsolete]
         private readonly IHostingEnvironment _appEnvironment;
         private readonly INotyfService _notyfService;
 
+        [Obsolete]
         public ProductController(ECommerceDbContext db, IHostingEnvironment appEnvironment, INotyfService notyfService)
         {
             _db = db;
@@ -53,6 +57,7 @@ namespace ECommerce.Controllers
         
 
         [HttpPost]
+        [Obsolete]
         public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)

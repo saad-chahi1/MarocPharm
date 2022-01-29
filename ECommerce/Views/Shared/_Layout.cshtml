@@ -50,6 +50,27 @@
                     </li>
                 </ul>
             </div>
+            <div class="collapse navbar-collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                <ul class="navbar-nav flex-grow-1 justify-content-end">
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-danger" asp-controller="Account" asp-action="Logout">@User.Identity.Name Log Out</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-success" asp-controller="Account" asp-action="Login">Log In</a>
+                        </li>
+                        <li class="nav-item ml-1">
+                            <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+
+                </ul>
+            </div>
         </div>
     </nav>
 
